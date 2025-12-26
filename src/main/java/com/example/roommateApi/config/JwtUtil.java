@@ -5,13 +5,14 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
 
     //    @Value("${jwt.secret}")
-    private final String jwtSecret = String.valueOf(Keys.secretKeyFor(SignatureAlgorithm.HS512));
+    private final Key jwtSecret = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
     @Value("${jwt.expiration-ms}")
     private int jwtExpirationMs;
