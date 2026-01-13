@@ -1,5 +1,6 @@
 package com.example.roommateApi.service;
 
+import com.example.roommateApi.model.Role;
 import com.example.roommateApi.model.User;
 import com.example.roommateApi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class UserService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .authorities(user.getRoles().stream().map(r -> r.getName()).toArray(String[]::new))
+                .authorities(user.getRoles().stream().map(Role::getName).toArray(String[]::new))
                 .build();
     }
 }

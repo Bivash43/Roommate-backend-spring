@@ -4,7 +4,7 @@ import com.example.roommateApi.dto.LoginRequest;
 import com.example.roommateApi.dto.SignupRequest;
 import com.example.roommateApi.dto.JwtResponse;
 import com.example.roommateApi.service.AuthService;
-import com.example.roommateApi.handler.ApiResponse;
+import com.example.roommateApi.handler.GlobalApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -21,20 +21,20 @@ public class AuthController {
 
     @Operation(summary = "Register a new user")
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse<String>> registerUser(@RequestBody SignupRequest signupRequest) {
+    public ResponseEntity<GlobalApiResponse<String>> registerUser(@RequestBody SignupRequest signupRequest) {
         try {
             String result = authService.registerUser(signupRequest);
-            return ResponseEntity.ok(new ApiResponse<>(true, result, "User registered successfully"));
+            return ResponseEntity.ok(new GlobalApiResponse<>(true, result, "User registered successfully"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new ApiResponse<>(false, null, e.getMessage()));
+            return ResponseEntity.badRequest().body(new GlobalApiResponse<>(false, null, e.getMessage()));
         }
     }
 
 
     @Operation(summary = "Login user and get JWT token")
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<JwtResponse>> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<GlobalApiResponse<JwtResponse>> authenticateUser(@RequestBody LoginRequest loginRequest) {
         JwtResponse jwtResponse = authService.authenticateUser(loginRequest);
-        return ResponseEntity.ok(new ApiResponse<>(true, jwtResponse, "Login successful"));
+        return ResponseEntity.ok(new GlobalApiResponse<>(true, jwtResponse, "Login successful"));
     }
 }

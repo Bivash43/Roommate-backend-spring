@@ -1,6 +1,5 @@
 package com.example.roommateApi.handler;
 
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,21 +16,21 @@ public class GlobalResponseHandler {
     // Handle generic RuntimeException
     @ExceptionHandler(RuntimeException.class)
     @ResponseBody
-    public ResponseEntity<ApiResponse<Object>> handleRuntimeException(RuntimeException ex) {
-        ApiResponse<Object> response = new ApiResponse<>(false, null, ex.getMessage());
+    public ResponseEntity<GlobalApiResponse<Object>> handleRuntimeException(RuntimeException ex) {
+        GlobalApiResponse<Object> response = new GlobalApiResponse<>(false, null, ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     // Handle validation errors
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
-    public ResponseEntity<ApiResponse<Map<String, String>>> handleValidationExceptions(
+    public ResponseEntity<GlobalApiResponse<Map<String, String>>> handleValidationExceptions(
             MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(), error.getDefaultMessage())
         );
-        ApiResponse<Map<String, String>> response = new ApiResponse<>(false, errors, "Validation failed");
+        GlobalApiResponse<Map<String, String>> response = new GlobalApiResponse<>(false, errors, "Validation failed");
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -44,8 +43,8 @@ public class GlobalResponseHandler {
 //    }
 
     // Success Response helper
-    public static <T> ResponseEntity<ApiResponse<T>> success(T data, String message) {
-        ApiResponse<T> response = new ApiResponse<>(true, data, message);
+    public static <T> ResponseEntity<GlobalApiResponse<T>> success(T data, String message) {
+        GlobalApiResponse<T> response = new GlobalApiResponse<>(true, data, message);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
