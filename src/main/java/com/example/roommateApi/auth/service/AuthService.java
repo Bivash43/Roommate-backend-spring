@@ -1,13 +1,13 @@
-package com.example.roommateApi.service;
+package com.example.roommateApi.auth.service;
 
-import com.example.roommateApi.dto.LoginRequest;
-import com.example.roommateApi.dto.SignupRequest;
-import com.example.roommateApi.dto.JwtResponse;
-import com.example.roommateApi.model.Role;
-import com.example.roommateApi.model.User;
-import com.example.roommateApi.repository.RoleRepository;
-import com.example.roommateApi.repository.UserRepository;
-import com.example.roommateApi.config.JwtUtil;
+import com.example.roommateApi.auth.dto.LoginRequest;
+import com.example.roommateApi.auth.dto.SignupRequest;
+import com.example.roommateApi.auth.dto.JwtResponse;
+import com.example.roommateApi.role.model.Role;
+import com.example.roommateApi.user.model.User;
+import com.example.roommateApi.role.repository.RoleRepository;
+import com.example.roommateApi.user.repository.UserRepository;
+import com.example.roommateApi.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

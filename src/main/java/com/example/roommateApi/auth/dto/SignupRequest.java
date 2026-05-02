@@ -1,4 +1,4 @@
-package com.example.roommateApi.dto;
+package com.example.roommateApi.auth.dto;
 
 import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;

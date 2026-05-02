@@ -1,4 +1,4 @@
-package com.example.roommateApi.dto;
+package com.example.roommateApi.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

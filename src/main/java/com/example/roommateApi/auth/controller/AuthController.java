@@ -1,10 +1,10 @@
-package com.example.roommateApi.controller;
+package com.example.roommateApi.auth.controller;
 
-import com.example.roommateApi.dto.LoginRequest;
-import com.example.roommateApi.dto.SignupRequest;
-import com.example.roommateApi.dto.JwtResponse;
-import com.example.roommateApi.service.AuthService;
-import com.example.roommateApi.handler.GlobalApiResponse;
+import com.example.roommateApi.auth.dto.LoginRequest;
+import com.example.roommateApi.auth.dto.SignupRequest;
+import com.example.roommateApi.auth.dto.JwtResponse;
+import com.example.roommateApi.auth.service.AuthService;
+import com.example.roommateApi.core.handler.GlobalApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
