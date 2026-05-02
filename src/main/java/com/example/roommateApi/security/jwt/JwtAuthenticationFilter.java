@@ -1,6 +1,6 @@
-package com.example.roommateApi.config;
+package com.example.roommateApi.security.jwt;
 
-import com.example.roommateApi.service.UserService;
+import com.example.roommateApi.user.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

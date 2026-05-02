@@ -1,4 +1,4 @@
-package com.example.roommateApi.config;
+package com.example.roommateApi.security.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
