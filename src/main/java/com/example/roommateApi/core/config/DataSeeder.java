@@ -1,9 +1,9 @@
-package com.example.roommateApi.config;
+package com.example.roommateApi.core.config;
 
-import com.example.roommateApi.model.Role;
-import com.example.roommateApi.model.User;
-import com.example.roommateApi.repository.RoleRepository;
-import com.example.roommateApi.repository.UserRepository;
+import com.example.roommateApi.role.model.Role;
+import com.example.roommateApi.user.model.User;
+import com.example.roommateApi.role.repository.RoleRepository;
+import com.example.roommateApi.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;

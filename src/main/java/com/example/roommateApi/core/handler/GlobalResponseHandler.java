@@ -1,4 +1,4 @@
-package com.example.roommateApi.handler;
+package com.example.roommateApi.core.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

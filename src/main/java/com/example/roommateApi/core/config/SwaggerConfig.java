@@ -1,4 +1,4 @@
-package com.example.roommateApi.config;
+package com.example.roommateApi.core.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;

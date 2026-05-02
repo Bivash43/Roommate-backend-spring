@@ -1,4 +1,4 @@
-package com.example.roommateApi.handler;
+package com.example.roommateApi.core.handler;
 
 import lombok.Getter;
 
