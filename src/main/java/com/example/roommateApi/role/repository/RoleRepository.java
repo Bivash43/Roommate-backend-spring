@@ -1,6 +1,6 @@
-package com.example.roommateApi.repository;
+package com.example.roommateApi.role.repository;
 
-import com.example.roommateApi.model.Role;
+import com.example.roommateApi.role.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

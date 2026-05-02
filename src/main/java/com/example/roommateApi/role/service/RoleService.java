@@ -1,7 +1,7 @@
-package com.example.roommateApi.service;
+package com.example.roommateApi.role.service;
 
-import com.example.roommateApi.model.Role;
-import com.example.roommateApi.repository.RoleRepository;
+import com.example.roommateApi.role.model.Role;
+import com.example.roommateApi.role.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

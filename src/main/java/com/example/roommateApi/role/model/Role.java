@@ -1,4 +1,4 @@
-package com.example.roommateApi.model;
+package com.example.roommateApi.role.model;
 
 import jakarta.persistence.*;
 import lombok.*;

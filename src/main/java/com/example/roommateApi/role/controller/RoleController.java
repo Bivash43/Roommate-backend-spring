@@ -1,7 +1,7 @@
-package com.example.roommateApi.controller;
+package com.example.roommateApi.role.controller;
 
-import com.example.roommateApi.model.Role;
-import com.example.roommateApi.service.RoleService;
+import com.example.roommateApi.role.model.Role;
+import com.example.roommateApi.role.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
