@@ -1,4 +1,4 @@
-package com.example.roommateApi.controller;
+package com.example.roommateApi.user.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

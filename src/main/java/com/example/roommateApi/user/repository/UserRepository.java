@@ -1,6 +1,6 @@
-package com.example.roommateApi.repository;
+package com.example.roommateApi.user.repository;
 
-import com.example.roommateApi.model.User;
+import com.example.roommateApi.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

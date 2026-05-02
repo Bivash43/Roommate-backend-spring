@@ -1,10 +1,11 @@
-package com.example.roommateApi.model;
+package com.example.roommateApi.user.model;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
+import com.example.roommateApi.role.model.Role;
 
 @Entity
 @Table(name = "users")

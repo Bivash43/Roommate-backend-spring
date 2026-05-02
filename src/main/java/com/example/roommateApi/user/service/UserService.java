@@ -1,8 +1,8 @@
-package com.example.roommateApi.service;
+package com.example.roommateApi.user.service;
 
-import com.example.roommateApi.model.Role;
-import com.example.roommateApi.model.User;
-import com.example.roommateApi.repository.UserRepository;
+import com.example.roommateApi.role.model.Role;
+import com.example.roommateApi.user.model.User;
+import com.example.roommateApi.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
