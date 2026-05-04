@@ -15,6 +15,10 @@ A secure, scalable RESTful backend service for the RoomMate application. Built w
 ## Features
 - **JWT-Based Authentication**: Secure stateless user sessions.
 - **Role-Based Access Control**: Standard `USER` and `ADMIN` roles, along with an exclusive `SUPER_ADMIN` role for critical API management.
+- **Household Management**: Associate roommates with shared households and define internal roles (ADMIN/MEMBER).
+- **Shared Resource Scheduling**: Real-time scheduling for shared facilities like bathrooms and kitchens with daily/weekly/monthly recurrence support.
+- **Chore Tracking**: Automated rotas and task management for household cleaning and maintenance.
+- **Event Planning**: Collaborative household event management with multiple organizers.
 - **Automated Data Seeding**: Automatically seeds essential roles and a default SuperAdmin account upon startup.
 - **Interactive API Documentation**: Embedded Swagger UI to explore and test API endpoints.
 - **Hot-Reloading**: Configured with Spring Boot DevTools for rapid local development.
