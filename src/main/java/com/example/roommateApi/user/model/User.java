@@ -6,6 +6,8 @@ import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
 import com.example.roommateApi.role.model.Role;
+import com.example.roommateApi.household.model.Household;
+import com.example.roommateApi.household.model.HouseholdRole;
 
 @Entity
 @Table(name = "users")
@@ -34,4 +36,12 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "household_id")
+    private Household household;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "household_role")
+    private HouseholdRole householdRole;
 }
