@@ -1,9 +1,12 @@
 package com.example.roommateApi.schedule.controller;
 
+import com.example.roommateApi.schedule.dto.ScheduleRequest;
+import com.example.roommateApi.schedule.dto.ScheduleResponse;
 import com.example.roommateApi.schedule.model.Schedule;
 import com.example.roommateApi.schedule.service.ScheduleService;
 import com.example.roommateApi.user.model.User;
 import com.example.roommateApi.user.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/schedules")
@@ -22,7 +26,7 @@ public class ScheduleController {
     private final UserRepository userRepository;
 
     @PostMapping
-    public ResponseEntity<Schedule> createSchedule(@RequestBody ScheduleRequest request) {
+    public ResponseEntity<ScheduleResponse> createSchedule(@Valid @RequestBody ScheduleRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User currentUser = userRepository.findByUsername(username)
@@ -41,12 +45,15 @@ public class ScheduleController {
                 .build();
 
         Schedule savedSchedule = scheduleService.createSchedule(schedule, currentUser.getHousehold().getId(), currentUser.getId());
-        return new ResponseEntity<>(savedSchedule, HttpStatus.CREATED);
+        return new ResponseEntity<>(ScheduleResponse.fromEntity(savedSchedule), HttpStatus.CREATED);
     }
 
     @GetMapping("/household/{householdId}")
-    public ResponseEntity<List<Schedule>> getSchedulesByHousehold(@PathVariable Long householdId) {
-        return ResponseEntity.ok(scheduleService.getSchedulesByHousehold(householdId));
+    public ResponseEntity<List<ScheduleResponse>> getSchedulesByHousehold(@PathVariable Long householdId) {
+        List<ScheduleResponse> schedules = scheduleService.getSchedulesByHousehold(householdId).stream()
+                .map(ScheduleResponse::fromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(schedules);
     }
 
     @DeleteMapping("/{id}")
@@ -54,12 +61,4 @@ public class ScheduleController {
         scheduleService.deleteSchedule(id);
         return ResponseEntity.noContent().build();
     }
-
-    public record ScheduleRequest(
-            com.example.roommateApi.schedule.model.ResourceType resourceType,
-            java.time.LocalDateTime startTime,
-            java.time.LocalDateTime endTime,
-            boolean isRecurring,
-            com.example.roommateApi.schedule.model.RecurrencePattern recurrencePattern
-    ) {}
 }
