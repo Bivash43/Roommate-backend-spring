@@ -1,10 +1,13 @@
 package com.example.roommateApi.chore.controller;
 
+import com.example.roommateApi.chore.dto.ChoreRequest;
+import com.example.roommateApi.chore.dto.ChoreResponse;
 import com.example.roommateApi.chore.model.Chore;
 import com.example.roommateApi.chore.model.ChoreStatus;
 import com.example.roommateApi.chore.service.ChoreService;
 import com.example.roommateApi.user.model.User;
 import com.example.roommateApi.user.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/chores")
@@ -23,7 +27,7 @@ public class ChoreController {
     private final UserRepository userRepository;
 
     @PostMapping
-    public ResponseEntity<Chore> createChore(@RequestBody ChoreRequest request) {
+    public ResponseEntity<ChoreResponse> createChore(@Valid @RequestBody ChoreRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User currentUser = userRepository.findByUsername(username)
@@ -40,17 +44,21 @@ public class ChoreController {
                 .build();
 
         Chore savedChore = choreService.createChore(chore, currentUser.getHousehold().getId(), request.assignedUserId());
-        return new ResponseEntity<>(savedChore, HttpStatus.CREATED);
+        return new ResponseEntity<>(ChoreResponse.fromEntity(savedChore), HttpStatus.CREATED);
     }
 
     @GetMapping("/household/{householdId}")
-    public ResponseEntity<List<Chore>> getChoresByHousehold(@PathVariable Long householdId) {
-        return ResponseEntity.ok(choreService.getChoresByHousehold(householdId));
+    public ResponseEntity<List<ChoreResponse>> getChoresByHousehold(@PathVariable Long householdId) {
+        List<ChoreResponse> chores = choreService.getChoresByHousehold(householdId).stream()
+                .map(ChoreResponse::fromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(chores);
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Chore> updateStatus(@PathVariable Long id, @RequestParam ChoreStatus status) {
-        return ResponseEntity.ok(choreService.updateChoreStatus(id, status));
+    public ResponseEntity<ChoreResponse> updateStatus(@PathVariable Long id, @RequestParam ChoreStatus status) {
+        Chore chore = choreService.updateChoreStatus(id, status);
+        return ResponseEntity.ok(ChoreResponse.fromEntity(chore));
     }
 
     @DeleteMapping("/{id}")
@@ -58,6 +66,4 @@ public class ChoreController {
         choreService.deleteChore(id);
         return ResponseEntity.noContent().build();
     }
-
-    public record ChoreRequest(String title, String description, java.time.LocalDate dueDate, Long assignedUserId) {}
 }
