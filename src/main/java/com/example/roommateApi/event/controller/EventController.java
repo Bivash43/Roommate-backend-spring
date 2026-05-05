@@ -1,9 +1,12 @@
 package com.example.roommateApi.event.controller;
 
+import com.example.roommateApi.event.dto.EventRequest;
+import com.example.roommateApi.event.dto.EventResponse;
 import com.example.roommateApi.event.model.Event;
 import com.example.roommateApi.event.service.EventService;
 import com.example.roommateApi.user.model.User;
 import com.example.roommateApi.user.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/events")
@@ -22,7 +26,7 @@ public class EventController {
     private final UserRepository userRepository;
 
     @PostMapping
-    public ResponseEntity<Event> createEvent(@RequestBody EventRequest request) {
+    public ResponseEntity<EventResponse> createEvent(@Valid @RequestBody EventRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User currentUser = userRepository.findByUsername(username)
@@ -39,12 +43,15 @@ public class EventController {
                 .build();
 
         Event savedEvent = eventService.createEvent(event, currentUser.getHousehold().getId(), currentUser.getId());
-        return new ResponseEntity<>(savedEvent, HttpStatus.CREATED);
+        return new ResponseEntity<>(EventResponse.fromEntity(savedEvent), HttpStatus.CREATED);
     }
 
     @GetMapping("/household/{householdId}")
-    public ResponseEntity<List<Event>> getEventsByHousehold(@PathVariable Long householdId) {
-        return ResponseEntity.ok(eventService.getEventsByHousehold(householdId));
+    public ResponseEntity<List<EventResponse>> getEventsByHousehold(@PathVariable Long householdId) {
+        List<EventResponse> events = eventService.getEventsByHousehold(householdId).stream()
+                .map(EventResponse::fromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(events);
     }
 
     @PostMapping("/{id}/organizers/{userId}")
@@ -58,6 +65,4 @@ public class EventController {
         eventService.deleteEvent(id);
         return ResponseEntity.noContent().build();
     }
-
-    public record EventRequest(String title, String description, java.time.LocalDateTime eventDate) {}
 }
