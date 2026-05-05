@@ -22,7 +22,7 @@ public class EventController {
     private final UserRepository userRepository;
 
     @PostMapping
-    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+    public ResponseEntity<Event> createEvent(@RequestBody EventRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User currentUser = userRepository.findByUsername(username)
@@ -31,6 +31,12 @@ public class EventController {
         if (currentUser.getHousehold() == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+
+        Event event = Event.builder()
+                .title(request.title())
+                .description(request.description())
+                .eventDate(request.eventDate())
+                .build();
 
         Event savedEvent = eventService.createEvent(event, currentUser.getHousehold().getId(), currentUser.getId());
         return new ResponseEntity<>(savedEvent, HttpStatus.CREATED);
@@ -52,4 +58,6 @@ public class EventController {
         eventService.deleteEvent(id);
         return ResponseEntity.noContent().build();
     }
+
+    public record EventRequest(String title, String description, java.time.LocalDateTime eventDate) {}
 }

@@ -22,7 +22,7 @@ public class ScheduleController {
     private final UserRepository userRepository;
 
     @PostMapping
-    public ResponseEntity<Schedule> createSchedule(@RequestBody Schedule schedule) {
+    public ResponseEntity<Schedule> createSchedule(@RequestBody ScheduleRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User currentUser = userRepository.findByUsername(username)
@@ -31,6 +31,14 @@ public class ScheduleController {
         if (currentUser.getHousehold() == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+
+        Schedule schedule = Schedule.builder()
+                .resourceType(request.resourceType())
+                .startTime(request.startTime())
+                .endTime(request.endTime())
+                .isRecurring(request.isRecurring())
+                .recurrencePattern(request.recurrencePattern())
+                .build();
 
         Schedule savedSchedule = scheduleService.createSchedule(schedule, currentUser.getHousehold().getId(), currentUser.getId());
         return new ResponseEntity<>(savedSchedule, HttpStatus.CREATED);
@@ -46,4 +54,12 @@ public class ScheduleController {
         scheduleService.deleteSchedule(id);
         return ResponseEntity.noContent().build();
     }
+
+    public record ScheduleRequest(
+            com.example.roommateApi.schedule.model.ResourceType resourceType,
+            java.time.LocalDateTime startTime,
+            java.time.LocalDateTime endTime,
+            boolean isRecurring,
+            com.example.roommateApi.schedule.model.RecurrencePattern recurrencePattern
+    ) {}
 }
