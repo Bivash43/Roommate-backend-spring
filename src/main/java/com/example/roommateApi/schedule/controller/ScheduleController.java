@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,6 +50,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/household/{householdId}")
+    @PreAuthorize("@securityService.isMemberOfHousehold(#householdId)")
     public ResponseEntity<List<ScheduleResponse>> getSchedulesByHousehold(@PathVariable Long householdId) {
         List<ScheduleResponse> schedules = scheduleService.getSchedulesByHousehold(householdId).stream()
                 .map(ScheduleResponse::fromEntity)
@@ -57,6 +59,7 @@ public class ScheduleController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("@securityService.isScheduleOwner(#id)")
     public ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
         scheduleService.deleteSchedule(id);
         return ResponseEntity.noContent().build();
