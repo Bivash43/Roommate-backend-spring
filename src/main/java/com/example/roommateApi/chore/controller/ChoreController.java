@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,6 +49,7 @@ public class ChoreController {
     }
 
     @GetMapping("/household/{householdId}")
+    @PreAuthorize("@securityService.isMemberOfHousehold(#householdId)")
     public ResponseEntity<List<ChoreResponse>> getChoresByHousehold(@PathVariable Long householdId) {
         List<ChoreResponse> chores = choreService.getChoresByHousehold(householdId).stream()
                 .map(ChoreResponse::fromEntity)
@@ -56,12 +58,14 @@ public class ChoreController {
     }
 
     @PatchMapping("/{id}/status")
+    @PreAuthorize("@securityService.isChoreOwner(#id)")
     public ResponseEntity<ChoreResponse> updateStatus(@PathVariable Long id, @RequestParam ChoreStatus status) {
         Chore chore = choreService.updateChoreStatus(id, status);
         return ResponseEntity.ok(ChoreResponse.fromEntity(chore));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("@securityService.isChoreOwner(#id)")
     public ResponseEntity<Void> deleteChore(@PathVariable Long id) {
         choreService.deleteChore(id);
         return ResponseEntity.noContent().build();
