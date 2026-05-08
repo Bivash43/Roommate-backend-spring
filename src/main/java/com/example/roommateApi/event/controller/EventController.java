@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,6 +48,7 @@ public class EventController {
     }
 
     @GetMapping("/household/{householdId}")
+    @PreAuthorize("@securityService.isMemberOfHousehold(#householdId)")
     public ResponseEntity<List<EventResponse>> getEventsByHousehold(@PathVariable Long householdId) {
         List<EventResponse> events = eventService.getEventsByHousehold(householdId).stream()
                 .map(EventResponse::fromEntity)
@@ -55,12 +57,14 @@ public class EventController {
     }
 
     @PostMapping("/{id}/organizers/{userId}")
+    @PreAuthorize("@securityService.isEventOwner(#id)")
     public ResponseEntity<Void> addOrganizer(@PathVariable Long id, @PathVariable Long userId) {
         eventService.addOrganizer(id, userId);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("@securityService.isEventOwner(#id)")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
         return ResponseEntity.noContent().build();
