@@ -1,13 +1,16 @@
 package com.example.roommateApi.user.model;
 
+import com.example.roommateApi.core.model.BaseEntity;
+import com.example.roommateApi.household.model.Household;
+import com.example.roommateApi.household.model.HouseholdRole;
+import com.example.roommateApi.role.model.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.HashSet;
 import java.util.Set;
-import com.example.roommateApi.role.model.Role;
-import com.example.roommateApi.household.model.Household;
-import com.example.roommateApi.household.model.HouseholdRole;
 
 @Entity
 @Table(name = "users")
@@ -15,7 +18,11 @@ import com.example.roommateApi.household.model.HouseholdRole;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
+@EqualsAndHashCode(callSuper = true, exclude = {"roles", "household"})
+@ToString(exclude = {"roles", "household"})
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
