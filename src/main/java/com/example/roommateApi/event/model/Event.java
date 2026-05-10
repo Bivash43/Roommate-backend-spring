@@ -1,9 +1,12 @@
 package com.example.roommateApi.event.model;
 
+import com.example.roommateApi.core.model.BaseEntity;
 import com.example.roommateApi.household.model.Household;
 import com.example.roommateApi.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -15,7 +18,11 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Event {
+@SQLDelete(sql = "UPDATE events SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
+@EqualsAndHashCode(callSuper = true, exclude = "organizers")
+@ToString(exclude = "organizers")
+public class Event extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
