@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @SQLDelete(sql = "UPDATE households SET deleted = true WHERE id = ?")
-@Where(clause = "deleted = false")
+@SQLRestriction("deleted = false")
 @EqualsAndHashCode(callSuper = true, exclude = "members")
 @ToString(exclude = "members")
 public class Household extends BaseEntity {

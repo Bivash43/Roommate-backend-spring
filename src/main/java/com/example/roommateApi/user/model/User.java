@@ -7,7 +7,7 @@ import com.example.roommateApi.role.model.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
-@Where(clause = "deleted = false")
+@SQLRestriction("deleted = false")
 @EqualsAndHashCode(callSuper = true, exclude = {"roles", "household"})
 @ToString(exclude = {"roles", "household"})
 public class User extends BaseEntity {
