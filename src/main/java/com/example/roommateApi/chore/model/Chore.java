@@ -1,9 +1,12 @@
 package com.example.roommateApi.chore.model;
 
+import com.example.roommateApi.core.model.BaseEntity;
 import com.example.roommateApi.household.model.Household;
 import com.example.roommateApi.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
 
@@ -13,7 +16,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Chore {
+@SQLDelete(sql = "UPDATE chores SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
+@EqualsAndHashCode(callSuper = true)
+public class Chore extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
