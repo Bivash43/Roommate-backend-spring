@@ -19,9 +19,10 @@ A secure, scalable RESTful backend service for the RoomMate application. Built w
 - **Shared Resource Scheduling**: Real-time scheduling for shared facilities like bathrooms and kitchens with daily/weekly/monthly recurrence support.
 - **Chore Tracking**: Automated rotas and task management for household cleaning and maintenance.
 - **Event Planning**: Collaborative household event management with multiple organizers.
-- **Automated Data Seeding**: Automatically seeds essential roles and a default SuperAdmin account upon startup.
+- **Auditability & Traceability**: Full JPA Auditing for tracking entity lifecycle and Soft-Delete patterns for data safety.
+- **Enhanced Security & Observability**: Fine-grained method-level security and structured logging for critical operations.
 - **Interactive API Documentation**: Embedded Swagger UI to explore and test API endpoints.
-- **Hot-Reloading**: Configured with Spring Boot DevTools for rapid local development.
+- **Robust Test Suite**: Comprehensive unit and integration tests with high coverage for core modules.
 
 ## Getting Started
 
