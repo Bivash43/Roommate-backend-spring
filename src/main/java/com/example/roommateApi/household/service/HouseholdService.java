@@ -7,11 +7,13 @@ import com.example.roommateApi.household.repository.HouseholdRepository;
 import com.example.roommateApi.user.model.User;
 import com.example.roommateApi.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class HouseholdService {
@@ -31,6 +33,7 @@ public class HouseholdService {
 
         Household savedHousehold = householdRepository.save(household);
 
+        log.info("Assigning user {} as ADMIN of new household {}", creatorUserId, savedHousehold.getId());
         creator.setHousehold(savedHousehold);
         creator.setHouseholdRole(HouseholdRole.ADMIN);
         userRepository.save(creator);
