@@ -3,14 +3,17 @@ package com.example.roommateApi.security.service;
 import com.example.roommateApi.chore.repository.ChoreRepository;
 import com.example.roommateApi.event.repository.EventRepository;
 import com.example.roommateApi.schedule.repository.ScheduleRepository;
+import com.example.roommateApi.household.model.HouseholdRole;
 import com.example.roommateApi.user.model.User;
 import com.example.roommateApi.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+@Slf4j
 @Service("securityService")
 @RequiredArgsConstructor
 public class SecurityService {
@@ -44,6 +47,19 @@ public class SecurityService {
         return eventRepository.findById(eventId)
                 .map(event -> Objects.equals(event.getHousehold().getId(), currentUser.getHousehold().getId()))
                 .orElse(false);
+    }
+
+    public boolean isHouseholdAdmin(Long householdId) {
+        User currentUser = getCurrentUser();
+        boolean isAdmin = currentUser.getHousehold() != null 
+                && Objects.equals(currentUser.getHousehold().getId(), householdId)
+                && currentUser.getHouseholdRole() == HouseholdRole.ADMIN;
+        
+        if (!isAdmin) {
+            log.warn("User {} attempted to perform admin action on household {} without sufficient permissions", 
+                    currentUser.getUsername(), householdId);
+        }
+        return isAdmin;
     }
 
     private User getCurrentUser() {
