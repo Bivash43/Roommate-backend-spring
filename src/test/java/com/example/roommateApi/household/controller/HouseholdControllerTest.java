@@ -2,7 +2,6 @@ package com.example.roommateApi.household.controller;
 
 import com.example.roommateApi.household.dto.HouseholdRequest;
 import com.example.roommateApi.household.model.Household;
-import com.example.roommateApi.household.model.HouseholdRole;
 import com.example.roommateApi.household.service.HouseholdService;
 import com.example.roommateApi.security.service.SecurityService;
 import com.example.roommateApi.user.model.User;
