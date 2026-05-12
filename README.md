@@ -10,7 +10,7 @@ A secure, scalable RESTful backend service for the RoomMate application. Built w
 - **PostgreSQL 16** (Production & Local Development)
 - **H2 Database** (Testing)
 - **Swagger / OpenAPI 3** (Documentation)
-- **Docker Compose**
+- **Docker Compose** 
 
 ## Features
 - **JWT-Based Authentication**: Secure stateless user sessions.
