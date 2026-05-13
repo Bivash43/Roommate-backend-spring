@@ -64,3 +64,6 @@ Tests are configured to use an isolated in-memory H2 database. To execute the te
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+See [CHANGELOG.md](CHANGELOG.md) for a history of changes.
