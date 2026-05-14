@@ -13,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Service for managing households and their members.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -21,6 +24,13 @@ public class HouseholdService {
     private final HouseholdRepository householdRepository;
     private final UserRepository userRepository;
 
+    /**
+     * Creates a new household and assigns the creator as an ADMIN.
+     * @param name the name of the household
+     * @param address the physical address of the household
+     * @param creatorUserId the ID of the user creating the household
+     * @return the created household
+     */
     @Transactional
     public Household createHousehold(String name, String address, Long creatorUserId) {
         User creator = userRepository.findById(creatorUserId)
@@ -41,15 +51,31 @@ public class HouseholdService {
         return savedHousehold;
     }
 
+    /**
+     * Retrieves a household by its ID.
+     * @param id the ID of the household to retrieve
+     * @return the found household
+     * @throws ResourceNotFoundException if the household is not found
+     */
     public Household getHousehold(Long id) {
         return householdRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Household not found with id: " + id));
     }
 
+    /**
+     * Retrieves all households in the system.
+     * @return a list of all households
+     */
     public List<Household> getAllHouseholds() {
         return householdRepository.findAll();
     }
 
+    /**
+     * Adds a user to a household with a specific role.
+     * @param householdId the ID of the household
+     * @param userId the ID of the user to add
+     * @param role the role to assign to the user in the household
+     */
     @Transactional
     public void addUserToHousehold(Long householdId, Long userId, HouseholdRole role) {
         Household household = getHousehold(householdId);
