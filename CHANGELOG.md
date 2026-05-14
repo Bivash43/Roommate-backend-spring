@@ -12,7 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fine-grained method-level security using `SecurityService` and `@PreAuthorize`.
 - Structured logging with SLF4J in `HouseholdService` and `SecurityService`.
 - `spring-security-test` dependency for robust security testing.
-- Initial Javadoc documentation for `SecurityService`.
+- Initial Javadoc documentation for `SecurityService`, `HouseholdService`, and `HouseholdController`.
+- OpenAPI `@Schema` annotations in `HouseholdRequest`, `HouseholdResponse`, and `UserResponse` for improved Swagger documentation.
 
 ### Changed
 - Migrated `@MockBean` to `@MockitoBean` for Spring Boot 3.4+ compatibility.
