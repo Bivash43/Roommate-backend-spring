@@ -23,6 +23,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * REST controller for managing households.
+ * Provides endpoints for creating, retrieving, and managing members of households.
+ */
 @Slf4j
 @RestController
 @RequestMapping("/api/households")
